@@ -1,5 +1,7 @@
 package lab.zhang.faas_broker.gateway.server.rest.biz.impl;
 
+import lab.zhang.faas_broker.gateway.server.rest.dao.Dest;
+import lab.zhang.faas_broker.gateway.server.rest.mapper.DestMapper;
 import lab.zhang.faas_broker.gateway.server.rest.biz.RequestBiz;
 import lab.zhang.faas_broker.gateway.server.rest.exception.GatewayException;
 import lab.zhang.faas_broker.gateway.server.rest.model.Address;
@@ -18,6 +20,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,6 +35,13 @@ import java.util.Map;
 @Service
 @Slf4j
 public class RequestBizImpl implements RequestBiz {
+
+//    @Autowired
+//    private DestService destService;
+
+    @Autowired
+    private DestMapper destMapper;
+
 
     @Resource
     private RouteService routeService;
@@ -76,12 +86,25 @@ public class RequestBizImpl implements RequestBiz {
     }
 
     private String buildUri(Long appId) {
+
+//        DestQO destQO = new DestQO();
+//        destQO.setId(appId);
+//        Dest dest = destService.findOne(destQO);
+
+        Dest dest = destMapper.selectById(appId);
+        if (dest == null) {
+            return "";
+        }
+
+        int domainId = dest.getDomainId();
+        String path = dest.getPath();
+
         Domain domain = routeService.route(appId);
         if (domain == null) {
             throw new GatewayException("[buildUri] domain is null");
         }
 
-        Address address = domainNameService.parse(domain);
+        Address address = domainNameService.parse(domain, path);
         if (address == null) {
             throw new GatewayException("[buildUri] address is null");
         }

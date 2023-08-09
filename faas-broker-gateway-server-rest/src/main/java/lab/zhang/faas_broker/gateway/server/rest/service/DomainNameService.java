@@ -8,5 +8,5 @@ import lab.zhang.faas_broker.gateway.server.rest.model.Domain;
  */
 public interface DomainNameService {
 
-    Address parse(Domain domain);
+    Address parse(Domain domain, String path);
 }
