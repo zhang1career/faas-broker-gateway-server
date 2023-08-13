@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public class DestRepositoryImpl extends ServiceImpl<DestMapper, Dest> implements DestRepository {
 
     @Override
-    public DestDetail findOne(DestDTO destDTO) {
+    public DestDetail findDestDetail(DestDTO destDTO) {
         return baseMapper.getDestDetailById(destDTO.getId());
     }
 }

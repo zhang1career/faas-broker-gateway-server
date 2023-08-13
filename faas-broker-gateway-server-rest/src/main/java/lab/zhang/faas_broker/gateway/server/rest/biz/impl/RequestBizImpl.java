@@ -1,13 +1,13 @@
 package lab.zhang.faas_broker.gateway.server.rest.biz.impl;
 
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import lab.zhang.faas_broker.gateway.server.rest.biz.RequestBiz;
 import lab.zhang.faas_broker.gateway.server.rest.entity.DestDetail;
 import lab.zhang.faas_broker.gateway.server.rest.exception.GatewayException;
 import lab.zhang.faas_broker.gateway.server.rest.model.Address;
 import lab.zhang.faas_broker.gateway.server.rest.model.Response;
-import lab.zhang.faas_broker.gateway.server.rest.dto.DestDTO;
-import lab.zhang.faas_broker.gateway.server.rest.repository.DestRepository;
-import lab.zhang.faas_broker.gateway.server.rest.service.DomainNameParseService;
+import lab.zhang.faas_broker.gateway.server.rest.service.DestService;
+import lab.zhang.faas_broker.gateway.server.rest.service.IpService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -35,11 +35,10 @@ import java.util.Map;
 public class RequestBizImpl implements RequestBiz {
 
     @Resource
-    private DestRepository destRepository;
+    private IpService ipService;
 
     @Resource
-    private DomainNameParseService domainNameParseService;
-
+    private LoadingCache<Long, DestDetail> destDetailCache;
 
     @Override
     public Response post(Long appId, Map<String, Object> paramMap) throws IOException {
@@ -77,19 +76,15 @@ public class RequestBizImpl implements RequestBiz {
     }
 
     private String buildUri(Long appId) {
+        DestDetail destDetail = destDetailCache.get(appId);
+        if (destDetail == null) {
+            throw new GatewayException("[buildUri] dest is null");
+        }
 
-        DestDTO destDTO = new DestDTO();
-        destDTO.setId(appId);
-        DestDetail dest = destRepository.findOne(destDTO);
-
-        String domain = dest.getDomain();
-        String path = dest.getPath();
-
-        Address address = domainNameParseService.parse(domain, path);
+        Address address = ipService.parse(destDetail);
         if (address == null) {
             throw new GatewayException("[buildUri] address is null");
         }
-
 
         return "http://" + address.getIpv4() + ":" + address.getPort() + address.getUrl();
     }

@@ -8,5 +8,11 @@ import lab.zhang.faas_broker.gateway.server.rest.entity.DestDetail;
  */
 public interface DestRepository {
 
-    DestDetail findOne(DestDTO destDTO);
+    /**
+     * 查询路由目标的详情
+     *
+     * @param destDTO 查询参数
+     * @return 路由目标的详情
+     */
+    DestDetail findDestDetail(DestDTO destDTO);
 }

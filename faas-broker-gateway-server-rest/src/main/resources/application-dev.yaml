@@ -10,8 +10,4 @@ spring:
 
 mybatis-plus:
   configuration:
-    cache-enabled: true
-    use-generated-keys: true
-    default-executor-type: REUSE
-    use-actual-param-name: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

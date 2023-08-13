@@ -18,8 +18,9 @@
 
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
 
+        <caffeine.version>2.9.3</caffeine.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <hutool-all.version>5.7.22</hutool-all.version>
+        <hutool-all.version>5.8.12</hutool-all.version>
         <lombok.version>1.18.20</lombok.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
@@ -122,6 +123,13 @@
             </exclusions>
         </dependency>
 
+        <!-- cache -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.version}</version>
+        </dependency>
+
         <!-- http -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -130,7 +138,11 @@
         </dependency>
 
         <!-- tool -->
-
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool-all.version}</version>
+        </dependency>
 
         <!-- misc -->
 
@@ -156,6 +168,11 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j-api.version}</version>
         </dependency>
 
