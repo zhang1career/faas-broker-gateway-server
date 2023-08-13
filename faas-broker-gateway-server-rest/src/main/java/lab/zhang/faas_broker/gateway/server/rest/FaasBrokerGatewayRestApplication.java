@@ -1,6 +1,7 @@
 package lab.zhang.faas_broker.gateway.server.rest;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
         exclude = {
                 DataSourceAutoConfiguration.class
         })
+@MapperScan("lab.zhang.faas_broker.gateway.server.rest.mapper")
 @Slf4j
 public class FaasBrokerGatewayRestApplication {
 

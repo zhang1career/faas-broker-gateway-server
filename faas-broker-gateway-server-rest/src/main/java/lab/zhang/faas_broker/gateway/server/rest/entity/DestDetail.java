@@ -1,4 +1,4 @@
-package lab.zhang.faas_broker.gateway.server.rest.dao;
+package lab.zhang.faas_broker.gateway.server.rest.entity;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
  * @author zhangrj
  */
 @Data
-public class Dest {
+public class DestDetail {
 
     private long id;
 
@@ -15,6 +15,8 @@ public class Dest {
     private int method;
 
     private int domainId;
+
+    private String domain;
 
     private String path;
 

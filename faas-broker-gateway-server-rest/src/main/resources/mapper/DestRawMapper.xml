@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="lab.zhang.faas_broker.gateway.server.rest.mapper.DestMapper">
+
+    <select id="getDestDetailById" parameterType="Long" resultType="lab.zhang.faas_broker.gateway.server.rest.entity.DestDetail">
+        SELECT dest.id,dest.protocol,dest.method,domain.domain,dest.path,dest.create_time,dest.update_time FROM dest
+        JOIN domain ON dest.domain_id = domain.id
+        WHERE dest.id = #{id}
+    </select>
+
+</mapper>

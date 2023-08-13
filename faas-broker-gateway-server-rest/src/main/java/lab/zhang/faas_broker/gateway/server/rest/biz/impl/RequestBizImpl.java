@@ -1,14 +1,13 @@
 package lab.zhang.faas_broker.gateway.server.rest.biz.impl;
 
-import lab.zhang.faas_broker.gateway.server.rest.dao.Dest;
-import lab.zhang.faas_broker.gateway.server.rest.mapper.DestMapper;
 import lab.zhang.faas_broker.gateway.server.rest.biz.RequestBiz;
+import lab.zhang.faas_broker.gateway.server.rest.entity.DestDetail;
 import lab.zhang.faas_broker.gateway.server.rest.exception.GatewayException;
 import lab.zhang.faas_broker.gateway.server.rest.model.Address;
-import lab.zhang.faas_broker.gateway.server.rest.model.Domain;
 import lab.zhang.faas_broker.gateway.server.rest.model.Response;
-import lab.zhang.faas_broker.gateway.server.rest.service.DomainNameService;
-import lab.zhang.faas_broker.gateway.server.rest.service.RouteService;
+import lab.zhang.faas_broker.gateway.server.rest.dto.DestDTO;
+import lab.zhang.faas_broker.gateway.server.rest.repository.DestRepository;
+import lab.zhang.faas_broker.gateway.server.rest.service.DomainNameParseService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,7 +19,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,18 +34,11 @@ import java.util.Map;
 @Slf4j
 public class RequestBizImpl implements RequestBiz {
 
-//    @Autowired
-//    private DestService destService;
-
-    @Autowired
-    private DestMapper destMapper;
-
+    @Resource
+    private DestRepository destRepository;
 
     @Resource
-    private RouteService routeService;
-
-    @Resource
-    private DomainNameService domainNameService;
+    private DomainNameParseService domainNameParseService;
 
 
     @Override
@@ -87,24 +78,14 @@ public class RequestBizImpl implements RequestBiz {
 
     private String buildUri(Long appId) {
 
-//        DestQO destQO = new DestQO();
-//        destQO.setId(appId);
-//        Dest dest = destService.findOne(destQO);
+        DestDTO destDTO = new DestDTO();
+        destDTO.setId(appId);
+        DestDetail dest = destRepository.findOne(destDTO);
 
-        Dest dest = destMapper.selectById(appId);
-        if (dest == null) {
-            return "";
-        }
-
-        int domainId = dest.getDomainId();
+        String domain = dest.getDomain();
         String path = dest.getPath();
 
-        Domain domain = routeService.route(appId);
-        if (domain == null) {
-            throw new GatewayException("[buildUri] domain is null");
-        }
-
-        Address address = domainNameService.parse(domain, path);
+        Address address = domainNameParseService.parse(domain, path);
         if (address == null) {
             throw new GatewayException("[buildUri] address is null");
         }

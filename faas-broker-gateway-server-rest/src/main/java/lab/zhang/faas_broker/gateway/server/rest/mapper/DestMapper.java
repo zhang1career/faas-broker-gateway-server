@@ -1,12 +1,14 @@
 package lab.zhang.faas_broker.gateway.server.rest.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import lab.zhang.faas_broker.gateway.server.rest.dao.Dest;
-import org.springframework.stereotype.Repository;
+import lab.zhang.faas_broker.gateway.server.rest.entity.Dest;
+import lab.zhang.faas_broker.gateway.server.rest.entity.DestDetail;
 
 /**
  * @author zhangrj
  */
-@Repository
 public interface DestMapper extends BaseMapper<Dest> {
+
+    DestDetail getDestDetailById(Long id);
+
 }

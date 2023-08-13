@@ -24,6 +24,7 @@ public class GatewayController {
     @RequestMapping(method = RequestMethod.POST, value = "/req")
     @ResponseBody
     public Response req(@RequestBody GatewayDTO gatewayDTO) {
+        log.info("[req] param: {}", gatewayDTO);
 
         Long appId = gatewayDTO.getAppId();
         Map<String, Object> param = gatewayDTO.getParam();

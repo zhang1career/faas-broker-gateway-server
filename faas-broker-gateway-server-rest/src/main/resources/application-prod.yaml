@@ -1,0 +1,17 @@
+server:
+  port: 18101
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/faas_broker_gateway?useSSL=false&autoReconnect=true&characterEncoding=utf8
+    username: zhangrj
+    password: nv7mGHm$7rrBPe90
+
+mybatis-plus:
+  configuration:
+    cache-enabled: true
+    use-generated-keys: true
+    default-executor-type: REUSE
+    use-actual-param-name: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
