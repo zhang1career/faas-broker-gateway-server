@@ -28,7 +28,6 @@ public class GatewayController {
 
         Long appId = gatewayDTO.getAppId();
         Map<String, Object> param = gatewayDTO.getParam();
-        param.put("rule", "{\"name\":\"大于\",\"type\":\"OP_GT\",\"value\":[{\"name\":\"年龄\",\"type\":\"VAR_INT\",\"value\":\"age\"},{\"name\":\"18\",\"type\":\"INS_INT\",\"value\":\"18\"}]}");
 
         Response response = new Response();
         try {
